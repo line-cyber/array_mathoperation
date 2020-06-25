@@ -1,0 +1,94 @@
+// laba1.cpp : Этот файл содержит функцию "main". Здесь начинается и заканчивается выполнение программы.
+
+// массив из 4-значных abcd элементов -> вывести массив, где элементы a+b=c+d
+
+#include <iostream>
+#include<ctime>
+#include<fstream>
+
+using namespace std;
+
+void output1(int arr[], int size) // Вывод в input
+{
+	ofstream in("D:\\laba1input.txt");
+	for (int i = 0; i < size; i++)
+	{
+		in << arr[i] <<"\n";
+	}
+	in << endl;
+}
+
+void output(int arr[], int size) // Вывод в output
+{
+	ofstream out("D:\\laba1output.txt");
+	for (int i = 0; i < size; i++)
+	{
+		out << arr[i] << "\n";
+	}
+	out << endl;
+}
+
+void A(int arr[], int size) // Одномерный массив заполненый 
+{
+	srand(time(NULL));
+	for (int i = 0; i < size; i++)
+	{
+		arr[i] = rand() % 8999 + 1000;
+	}
+}
+
+int ForNewArray(int arr[], int size,int &count) //размерность нового
+{
+	for (int i = 0; i < size; i++)
+	{
+		if ((arr[i] / 1000 + (arr[i] / 100) % 10) == ((arr[i] / 10) % 10 + arr[i] % 10))
+			count++;
+	}
+	return count;
+}
+
+int FillNewArray(int arr[], int size, int new_arr[],int count) //заполение нового массива
+{
+	int j = 0;
+	for (int i = 0; i <size; i++)
+	{
+		if ((arr[i] / 1000+(arr[i] / 100) % 10)==((arr[i] / 10) % 10 + arr[i] % 10))
+		
+		{
+			new_arr[j++] = arr[i];
+		}
+	}
+	return new_arr[count];
+}
+
+int main()
+{
+	ifstream in;
+	in.open("D:\\laba1input.txt");
+	setlocale(LC_ALL, "Russian");
+
+	ofstream out("D:\\laba1output.txt");
+	
+	int count=0;
+	int i,j;
+	
+	int number=0;
+
+	int size=50;
+
+	int *arr = new int[size];
+	A(arr, size);
+	output1(arr, size);
+	
+	ForNewArray(arr, size, count);
+
+	int *new_arr = new int[size];
+
+	FillNewArray(arr, size, new_arr,count);
+
+	output(new_arr, count);	
+
+	delete[] arr;  
+	delete[] new_arr; 
+	return 0;
+}
